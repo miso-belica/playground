@@ -1,0 +1,56 @@
+[user]
+	name = Mišo Belica
+	email = miso.belica@gmail.com
+
+[core]
+	editor = vim
+	# editor = 'C:/Program Files/Sublime Text/subl.exe' -w
+	autocrlf = true
+
+[rebase]
+	autosquash = true
+
+[push]
+	default = simple
+
+[diff]
+	algorithm = patience
+
+[alias]
+	co = checkout
+	ci = commit
+	br = branch -v
+	st = status
+	dif = diff --color-words
+
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+	interactive = auto
+	ui = true
+	pager = true
+
+[color "branch"]
+	current = yellow reverse
+	local = yellow
+	remote = green
+
+[color "diff"]
+	meta = yellow bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+
+[color "status"]
+	added = yellow
+	changed = green
+	untracked = cyan
+
+[gui]
+	encoding = utf-8
+	fontdiff = -family \"Source Code Pro\" -size 11 -weight normal -slant roman -underline 0 -overstrike 0
+	diffopts = --patience
+	warndetachedcommit = true
+	pruneduringfetch = true
+	matchtrackingbranch = true
