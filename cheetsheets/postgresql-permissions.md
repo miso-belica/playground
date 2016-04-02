@@ -1,5 +1,4 @@
-# [PostgreSQL roles system](
-http://www.postgresql.org/docs/current/static/user-manag.html)
+# [PostgreSQL roles system](http://www.postgresql.org/docs/current/static/user-manag.html)
 
 From PG 8.1 roles are new users and groups. Role can act as user, group of users or both. Role can have membership in another roles.
 
@@ -67,6 +66,13 @@ It is possible to grant a privilege `WITH GRANT OPTION`, which gives the recipie
 PostgreSQL grants default privileges on some types of objects to PUBLIC. No privileges are granted to PUBLIC by default on tables, columns, schemas or tablespaces. For other types, the default privileges granted to PUBLIC are as follows: CONNECT and CREATE TEMP TABLE for databases; EXECUTE privilege for functions; and USAGE privilege for languages.
 
 ## Examples
+
+```sql
+ALTER DEFAULT PRIVILEGES
+FOR ROLE "role-read"
+IN SCHEMA "public"
+GRANT SELECT ON TABLES TO "role-read";
+```
 
 ```sql
 GRANT CONNECT, TEMPORARY, TEMP ON DATABASE "database" TO "role";
