@@ -5,6 +5,8 @@ pytest
 pytest-cov
 pytest-watch
 pytest-testmon
+pytest-capturelog
+pytest-cache
 colorama
 Fabric3
 invoke
