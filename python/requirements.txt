@@ -12,6 +12,7 @@ Fabric3
 invoke
 twine
 httpie
+pur
 
 numpy
 Pillow
