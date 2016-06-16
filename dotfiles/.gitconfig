@@ -15,6 +15,7 @@
 
 [diff]
 	algorithm = patience
+	compactionHeuristic = true  # https://github.com/blog/2188-git-2-9-has-been-released
 
 [alias]
 	co = checkout
