@@ -1,0 +1,113 @@
+FORMAT: 1A
+HOST: https://api.example.com/
+
+# Polls (API name)
+
+Polls is a simple API allowing consumers to view polls and vote in them.
+
+# Group Questions
+
+You can group related resources by using heading with the Group keyword.
+
+Resources related to questions in the API.
+
+## Questions Collection (resource) [/questions]
+
+### List All Questions (action) [GET]
+You should specify each action you may make on a resource. An action is specified with a sub-heading with the name of the action followed by the HTTP method.
+
+An action should include at least one response from the server
+which must include a status code and may contain a body.
+A response is defined as a list item within an action.
+Lists are created by preceding list items with either a +, * or -.
+
+This action returns a 200 status code along with a JSON body.
+
++ Response 200 (application/json)
+
+        {
+            "question": "Favourite programming language?",
+            "choices": [
+                {
+                    "choice": "Swift",
+                    "votes": 2048
+                }, {
+                    "choice": "Python",
+                    "votes": 1024
+                }
+            ]
+        }
+
+
+### Create a New Question [POST]
+You may create your own question using this action.
+This action takes a JSON payload as part of the request.
+Response then return specific header and body.
+
++ Attributes
+    + question (string) - Title of question
+    + choices: john@appleseed.com (array[string]) - List of possible answers
+
++ Request (application/json)
+
+        {
+            "question": "Favourite programming language?",
+            "choices": [
+                "Swift",
+                "Python",
+                "Objective-C",
+                "Ruby"
+            ]
+        }
+
++ Response 201 (application/json)
+
+    + Attributes (object)
+        + question (string) - Question title.
+
+    + Headers
+
+            Location: /questions/1
+
+    + Body
+
+            {
+                "question": "Favourite programming language?",
+                "published_at": "2014-11-11T08:40:51.620Z",
+                "url": "/questions/1",
+                "choices": [
+                    {
+                        "choice": "Swift",
+                        "url": "/questions/1/choices/1",
+                        "votes": 0
+                    }, {
+                        "choice": "Python",
+                        "url": "/questions/1/choices/2",
+                        "votes": 0
+                    }, {
+                        "choice": "Objective-C",
+                        "url": "/questions/1/choices/3",
+                        "votes": 0
+                    }, {
+                        "choice": "Ruby",
+                        "url": "/questions/1/choices/4",
+                        "votes": 0
+                    }
+                ]
+            }
+
+## Question [/questions/{question_id}{?datails}]
+
++ Parameters
+    + question_id (number) - ID of the Question in the form of an integer
+    + details (optional, boolean) - ID of the Question in the form of an integer
+    + parameter_name `example value` (<type> | array[<type>] | enum[<type>], required | optional) - <description>
+
+        <additional description>
+
+        + Default: `<default value>`
+
+        + Members
+            + `<enumeration value 1>`
+            + `<enumeration value 2>`
+            + `<enumeration value N>`
