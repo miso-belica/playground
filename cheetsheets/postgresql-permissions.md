@@ -67,7 +67,7 @@ PostgreSQL grants default privileges on some types of objects to PUBLIC. No priv
 
 ## Examples
 
-```
+```sql
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO "role-read"; -- read-only access to DB
 ```
 
