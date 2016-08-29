@@ -1,4 +1,5 @@
 - https://robots.thoughtbot.com/reading-an-explain-analyze-query-plan
-- http://tatiyants.com/pev/#/plans/new
-- https://explain.depesz.com
+- Graphical tree node explain - http://tatiyants.com/pev/#/plans/new
+- MariaDB's explain analyzer - https://mariadb.org/explain_analyzer/analyze/
+- Depesz's explain for PostgreSQL - https://explain.depesz.com/
 - http://rachbelaid.com/introduction-to-postgres-physical-storage/
