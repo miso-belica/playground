@@ -1,7 +1,7 @@
 # Commands
 
 - Build docker image `docker build -f Dockerfile.elastic -t  <image-name>:latest -t <image-name>:1.0 .`
-- Run docker container from image `docker run --detach --restart=always --publish=32775:9200 --name=<container-name> <image-name>`
+- Run docker container from image `docker run --detach --restart=always --publish=32775:9200 --name=<container-name> [-v <local-absolute-path>:<docker-absolute-path>] <image-name>`
 - Bash into running container `docker exec -it <container-name> /bin/bash`
 
 # Dockerfile
