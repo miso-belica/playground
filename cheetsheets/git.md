@@ -1,5 +1,6 @@
-# Help
+# Help 
 * `git help <příkaz>`
+* http://ohshitgit.com/
 
 # Global config (git config --list)
 * `git config --global user.name "Name surname"`
