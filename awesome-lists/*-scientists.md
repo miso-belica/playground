@@ -1,0 +1,1 @@
+- http://www.johnwittenauer.net/machine-learning-exercises-in-python-part-1/
