@@ -1,4 +1,5 @@
 - http://www.johnwittenauer.net/machine-learning-exercises-in-python-part-1/
+- http://joelgrus.com/2016/05/23/fizz-buzz-in-tensorflow/
 - https://rayli.net/blog/data/top-10-data-mining-algorithms-in-plain-english/
 - http://radimrehurek.com/data_science_python/
 - http://slideshot.epfl.ch/play/icc_weikum
