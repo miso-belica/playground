@@ -4,3 +4,5 @@
 - http://radimrehurek.com/data_science_python/
 - http://slideshot.epfl.ch/play/icc_weikum
 - http://nlp.stanford.edu/~manning/talks/NAACL2015-VSM-Compositional-Deep-Learning.pdf
+- https://medium.com/@ageitgey/machine-learning-is-fun-80ea3ec3c471
+- https://www.toptal.com/machine-learning/an-introduction-to-deep-learning-from-perceptrons-to-deep-networks
