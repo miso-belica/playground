@@ -7,3 +7,4 @@
 - https://medium.com/@ageitgey/machine-learning-is-fun-80ea3ec3c471
 - https://www.toptal.com/machine-learning/an-introduction-to-deep-learning-from-perceptrons-to-deep-networks
 - http://blog.keras.io/building-powerful-image-classification-models-using-very-little-data.html
+- https://www.root.cz/serialy/biologicky-inspirovane-algoritmy/
