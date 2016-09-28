@@ -8,3 +8,6 @@
 - https://www.toptal.com/machine-learning/an-introduction-to-deep-learning-from-perceptrons-to-deep-networks
 - http://blog.keras.io/building-powerful-image-classification-models-using-very-little-data.html
 - https://www.root.cz/serialy/biologicky-inspirovane-algoritmy/
+- https://mzucker.github.io/2016/08/15/page-dewarping.html
+- http://www.hexahedria.com/2015/08/03/composing-music-with-recurrent-neural-networks/
+- http://ahmedbesbes.com/how-to-score-08134-in-titanic-kaggle-challenge.html
