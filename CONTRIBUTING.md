@@ -14,3 +14,5 @@
 2. https://doc.nette.org/cs/2.3/dependency-injection
 3. https://phpfashion.com/co-je-dependency-injection
 4. https://www.zdrojak.cz/clanky/navrhove-principy-solid/
+5. https://julien.danjou.info/blog/2016/python-exceptions-guide
+
