@@ -2,6 +2,9 @@
 
 From PG 8.1 roles are new users and groups. Role can act as user, group of users or both. Role can have membership in another roles.
 
+- [Auditing Users and Roles in PostgreSQL](http://blog.2ndquadrant.com/auditing-users-and-roles-in-postgresql/)
+- [Application users vs. Row Level Security](http://blog.2ndquadrant.com/application-users-vs-row-level-security/)
+
 ## Roles
 Create new role with [`CREATE ROLE "name" WITH LOGIN UNENCRYPTED PASSWORD 'password' [SUPERUSER]`](http://www.postgresql.org/docs/current/static/sql-createrole.html) or from CLI by `createuser "name"`.
 
