@@ -1,0 +1,1 @@
+- https://www.root.cz/clanky/na-co-si-dat-pozor-pri-navrhu-databaze/
