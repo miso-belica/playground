@@ -9,9 +9,9 @@ ORDER BY ccu.table_name, tc.table_name, kcu.column_name;
 
 
 -- table sizes
-SELECT relname AS "relation", pg_size_pretty(pg_relation_size(C.oid)) AS "size", pg_size_pretty(pg_total_relation_size(C.oid)) AS "size with indexes"
+SELECT relname AS "table", pg_size_pretty(pg_relation_size(C.oid)) AS "size", pg_size_pretty(pg_total_relation_size(C.oid)) AS "size with indexes"
 FROM pg_class C LEFT JOIN pg_namespace N ON (N.oid = C.relnamespace)
-WHERE nspname = 'public' AND C.relkind != 'i'
+WHERE nspname = 'public' AND C.relkind NOT IN ('i', 'S')
 ORDER BY pg_relation_size(C.oid) DESC
 LIMIT 10;
 
