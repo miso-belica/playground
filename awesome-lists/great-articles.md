@@ -1,1 +1,2 @@
 - http://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/ and https://lukasa.co.uk/2016/07/The_Function_Colour_Myth/
+- http://sijinjoseph.com/programmer-competency-matrix/
