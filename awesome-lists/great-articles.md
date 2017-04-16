@@ -1,2 +1,4 @@
 - http://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/ and https://lukasa.co.uk/2016/07/The_Function_Colour_Myth/
 - http://sijinjoseph.com/programmer-competency-matrix/
+- http://hackflow.com/blog/2015/03/08/boiling-react-down-to-few-lines-in-jquery/
+- https://www.dzejes.cz
