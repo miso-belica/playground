@@ -76,7 +76,7 @@ GRANT SELECT ON ALL TABLES IN SCHEMA public TO "role-read"; -- read-only access 
 
 ```sql
 ALTER DEFAULT PRIVILEGES
-FOR ROLE "role-read"
+FOR ROLE "role-creator-of-tables"
 IN SCHEMA "public"
 GRANT SELECT ON TABLES TO "role-read";
 ```
