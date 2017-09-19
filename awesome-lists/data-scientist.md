@@ -12,3 +12,4 @@
 - http://www.hexahedria.com/2015/08/03/composing-music-with-recurrent-neural-networks/
 - http://ahmedbesbes.com/how-to-score-08134-in-titanic-kaggle-challenge.html
 - https://medium.com/@miloharper/latest
+- http://datavizproject.com/
