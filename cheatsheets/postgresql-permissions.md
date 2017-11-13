@@ -89,6 +89,15 @@ GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA "public" TO "role";
 GRANT USAGE ON TYPE "type" TO "role";
 ```
 
+Owners of tables:
+```sql
+select t.table_name, u.usename
+from information_schema.tables t
+join pg_catalog.pg_class c on (t.table_name = c.relname)
+join pg_catalog.pg_user u on (c.relowner = u.usesysid)
+where t.table_schema='public';
+```
+
 Privileges for tables:
 ```sql
 SELECT grantee, table_name, string_agg(privilege_type, ', ') AS privileges
