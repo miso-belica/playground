@@ -25,6 +25,25 @@ This action returns a 200 status code along with a JSON body.
 
 + Response 200 (application/json)
 
+    Here you can add some description, but then you need to use "Body" directive for data below.
+
+    + Body
+    
+            {
+                "question": "Favourite programming language?",
+                "choices": [
+                    {
+                        "choice": "Swift",
+                        "votes": 2048
+                    }, {
+                        "choice": "Python",
+                        "votes": 1024
+                    }
+                ]
+            }
+
++ Response 200 (application/json)
+
         {
             "question": "Favourite programming language?",
             "choices": [
@@ -48,7 +67,7 @@ Response then return specific header and body.
     + question (string) - Title of question
     + choices: `john@appleseed.com` (array[string]) - List of possible answers
 
-+ Request (application/json)
++ Request With some special field which I want to highlight in this OPTIONAL description (application/json)
 
         {
             "question": "Favourite programming language?",
