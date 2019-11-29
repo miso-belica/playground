@@ -1,0 +1,26 @@
+image: atlassian/default-image:2  # https://confluence.atlassian.com/bitbucket/use-docker-images-as-build-environments-792298897.html
+pipelines:  # https://confluence.atlassian.com/bitbucket/configure-bitbucket-pipelines-yml-792298910.html
+  default:
+    - step:
+      script:
+        - echo "Hello world"
+  branches:
+  tags:
+  bookmarks:
+  pull_requests:
+    '**':  # runs for all branches in PR
+      - step:
+        script:
+          - echo "Hello world"
+    feature/*:  # runs only on feature branches in PR
+      - step:
+        script:
+          - echo "Hello world"
+  custom:
+    name_of_the_pipeline:
+      - variables:
+        - name: language
+        - name: server_host
+      - step:
+        script:
+          - echo "Hello $server_host. Do you speak $language?"
