@@ -136,6 +136,7 @@ definitions:
         MYSQL_ROOT_PASSWORD: root
   # Re-downloading dependencies from the internet for each step of a build can take a lot of time.
   # Using a cache they are downloaded once to our servers and then locally loaded into the build each time.
+  # https://confluence.atlassian.com/bitbucket/caching-dependencies-895552876.html
   caches:
     bundler: vendor/bundle
 
