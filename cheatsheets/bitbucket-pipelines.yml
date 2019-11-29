@@ -1,26 +1,155 @@
-image: atlassian/default-image:2  # https://confluence.atlassian.com/bitbucket/use-docker-images-as-build-environments-792298897.html
-pipelines:  # https://confluence.atlassian.com/bitbucket/configure-bitbucket-pipelines-yml-792298910.html
+# https://confluence.atlassian.com/bitbucket/use-docker-images-as-build-environments-792298897.html
+image: atlassian/default-image:2
+# https://confluence.atlassian.com/bitbucket/configure-bitbucket-pipelines-yml-792298910.html
+pipelines:
+  # Pipeline for all branches that don't match a pipeline in other sections.
+  # Runs on every push to the repository unless a branch-specific pipeline is defined.
+  # Doesn't run on tags or bookmarks.
   default:
-    - step:
-      script:
-        - echo "Hello world"
-  branches:
-  tags:
-  bookmarks:
-  pull_requests:
-    '**':  # runs for all branches in PR
-      - step:
+    - step: # Each step has 4GB of memory & runs a separate Docker container.
+        name: "Install dependencies & show Python version"
+        # You can use different containers by selecting different images.
+        # You can specify any public or private Docker image that isn't hosted on a private network.
+        image: python:3.8.0-slim
+        caches:
+          - pip
+          - npm
         script:
-          - echo "Hello world"
+          - pip install -r requirements.txt
+          - python --version
+    - step:
+        # ! You can't configure the first step of a pipeline as a manual step.
+        # Can only be executed in the order that they are configured. You cannot skip a manual step.
+        # Can only be executed if the previous step has successfully completed.
+        # Can only be triggered by users with write access to the repository.
+        # If your build uses both manual steps and artifacts, the artifacts are stored for 7 days.
+        # After that time, the artifacts expire and any manual steps can no longer be executed.
+        trigger: manual
+        name: Manual step
+        script:
+          - echo "Waits for a manual trigger before running."
+    - step:
+        name: Alert
+        script:
+          # Makes complex tasks easier, by doing a lot of the work behind the scenes.
+          # https://confluence.atlassian.com/bitbucket/pipes-978200560.html
+          # You can also create your own pipes.
+          # https://confluence.atlassian.com/bitbucket/how-to-write-a-pipe-for-bitbucket-pipelines-966051288.html
+          # If you do, you can specify a docker based pipe with the syntax:
+          # pipe: docker://<DockerAccountName>/<ImageName>:<version>
+          - pipe: atlassian/slack-notify:0.3.2
+            variables:
+              WEBHOOK_URL: 'Incoming Webhook URL. It is recommended to use a secure repository variable.'
+              MESSAGE: 'Notification message.'
+              # DEBUG: true # Turn on extra debug information.
+    - step:
+        name: "Advanced settings"
+        size: "2x" # 8GB of memory but will use twice the number of build minutes.
+        deployment: "test | staging | production" # Type of environment. It is used in the Deployments dashboard.
+        # Files produced by a step, that you want to share with a following step.
+        # https://confluence.atlassian.com/bitbucket/using-artifacts-in-steps-935389074.html
+        artifact:
+          - dist/**
+        script:
+          - echo "Advanced"
+        # Commands inside an after-script section will run when the step succeeds or fails.
+        after-script:
+          - echo "Done"
+    - step:
+        name: "Step using the services"
+        services:
+          - docker
+          - mysql
+        script:
+          - docker ps
+          - mysql --version
+    - parallel:  # The number of build minutes will not change, but you'll be able to see the results sooner.
+        - step:
+            script:
+              - echo "I am from the original universe."
+        - step:
+            script:
+              - echo "I am from the paralell universe."
+
+  # Section for all branch-specific build pipelines.
+  # https://confluence.atlassian.com/bitbucket/branch-workflows-856697482.html
+  branches:
+    master:
+      - step:
+          script:
+            - echo "Runs only on commit to the master branch."
+    fix/*:
+      - step:
+          image: openjdk:8 # This step uses its own image
+          script:
+            - echo "Runs only on commit to branches that match the fix/* pattern."
+
+  # Defines all tag-specific build pipelines.
+  # The names are matched against tags and annotated tags in your Git repository.
+  tags:
+    v*:
+      - step:
+          script:
+            - echo "Run with version tags created"
+
+  # Defines all bookmark-specific build pipelines.
+  # The names are matched against bookmarks in your Mercurial repository.
+  bookmarks:
+    mercurial:
+      - step:
+          script:
+            - echo "I don't know Mercurial. Git was always enough for me."
+
+  # Runs on pull requests initiated from within your repo.
+  # It merges the target branch into your working branch before it runs.
+  # ! Runs in addition to any branch/default pipelines, so if they overlap 2 pipelines may run at the same time.
+  pull_requests:
+    # Runs for all branches in PR.
+    # https://confluence.atlassian.com/bitbucket/using-glob-patterns-on-the-pipelines-yaml-file-976754281.html
+    '**':
+      - step:
+          script:
+            - echo "Hello world"
     feature/*:  # runs only on feature branches in PR
       - step:
-        script:
-          - echo "Hello world"
+          script:
+            - echo "Hello world"
+
+  # Pipelines that can only be triggered manually or scheduled from the UI.
   custom:
     name_of_the_pipeline:
-      - variables:
+      - variables: # Custom pipelines only! Contains variables that are supplied when a pipeline is launched.
         - name: language
         - name: server_host
       - step:
-        script:
-          - echo "Hello $server_host. Do you speak $language?"
+          script:
+            - echo "Hello $server_host. Do you speak $language?"
+
+definitions:
+  # https://confluence.atlassian.com/bitbucket/use-services-and-databases-in-bitbucket-pipelines-874786688.html
+  services:
+    postgresql: postgresql:latest
+    mysql:
+      image: mysql:latest
+      variables:
+        MYSQL_DATABASE: root
+        MYSQL_ROOT_PASSWORD: root
+  # Re-downloading dependencies from the internet for each step of a build can take a lot of time.
+  # Using a cache they are downloaded once to our servers and then locally loaded into the build each time.
+  caches:
+    bundler: vendor/bundle
+
+options:
+  # Maximum amount of minutes a step can execute for at a global level or at a step level.
+  # Use a whole number greater than 0 and less than 120.
+  # If you don't specify a max-time, it defaults to 120.
+  max-time: 120
+  size:
+
+close:
+  lfs: true # Support for Git lfs
+  # The depth of the Git clone.
+  # Use a whole number greater than zero to specify the depth.
+  # Use "full" for a full clone.
+  # Defaults to 50.
+  depth: 50
