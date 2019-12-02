@@ -103,7 +103,7 @@ pipelines:
   # Runs on pull requests initiated from within your repo.
   # It merges the target branch into your working branch before it runs.
   # ! Runs in addition to any branch/default pipelines, so if they overlap 2 pipelines may run at the same time.
-  pull_requests:
+  pull-requests:
     # Runs for all branches in PR.
     # https://confluence.atlassian.com/bitbucket/using-glob-patterns-on-the-pipelines-yaml-file-976754281.html
     '**':
