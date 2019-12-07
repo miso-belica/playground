@@ -3,9 +3,8 @@
 	email = miso.belica@gmail.com
 
 [core]
-	editor = vim
-	# editor = 'C:/Program Files/Sublime Text/subl.exe' -w
-	autocrlf = true
+	editor = 'C:/Program Files/Sublime Text/sublime_text.exe' -w
+	autocrlf = input
 
 [rebase]
 	autosquash = true
