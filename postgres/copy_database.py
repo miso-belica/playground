@@ -33,8 +33,8 @@ import os.path
 import threading
 from concurrent.futures.process import ProcessPoolExecutor
 from contextlib import closing
-from datetime import datetime
 from multiprocessing import current_process
+from time import perf_counter
 
 import psycopg2
 import psycopg2.extras
@@ -80,13 +80,13 @@ def copy_data_with_setup(args):
         thread = threading.Thread(target=run_db_consumer, args=(dest_postgres_url, read_fd, table))
         thread.start()
 
-        start_time = datetime.now()
+        start_time = perf_counter()
         with closing(os.fdopen(write_fd, "wb")) as stream:
             print("Start:", table, "-", process.name)
             src_db.copy_to(stream, table)
 
         thread.join()
-        delta = datetime.now() - start_time
+        delta = perf_counter() - start_time
         print("End:", table, "-", process.name, "took", humanize_time(delta), "seconds")
 
 
@@ -147,8 +147,7 @@ class Database:
         self._cursor.copy_expert(f"""COPY "{table}" TO STDOUT WITH (FORMAT 'binary')""", stream)
 
 
-def humanize_time(time_delta):
-    seconds = time_delta.total_seconds()
+def humanize_time(seconds: float):
     times = [0, 0, 0]
 
     MINUTE_IN_SECONDS = 60
@@ -168,12 +167,12 @@ def humanize_time(time_delta):
 if __name__ == "__main__":
     args = docopt(__doc__)
 
-    start_time = datetime.now()
+    start_time = perf_counter()
 
     if args["schema"]:
         copy_schema(args["--src"], args["--dest"], args["--delete-file"], args["--only-dump"])
     elif args["data"]:
         copy_data(args["--src"], args["--dest"], args["--only-tables"], args["--ignore-tables"])
 
-    delta = datetime.now() - start_time
+    delta = perf_counter() - start_time
     print("Total time =", humanize_time(delta), "seconds")
