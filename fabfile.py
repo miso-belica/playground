@@ -32,7 +32,7 @@ def server_init(c):
 
 @local_task
 def password(_, length=DEFAULT_PASSWORD_LENGTH, special_chars=True):
-    f"""[--length={DEFAULT_PASSWORD_LENGTH} --no-special-chars]"""
+    """[--length=25 --no-special-chars]"""
     print(generate_password(length, special_chars))
 
 
@@ -78,11 +78,15 @@ def pg_load(c, database, only_data=True):
     c.run(f'psql -U postgres -d "{database}" -f data.sql')
 
 
-@remote_task
-def docker(c, command="ps"):
-    f"""--command=<{" | ".join(DOCKER_AVAILABLE_COMMANDS)}>"""
-    if command not in DOCKER_AVAILABLE_COMMANDS:
-        print(f"Please specify valid docker command: {DOCKER_AVAILABLE_COMMANDS}")
+@remote_task(iterable=["container"])
+def docker(c, statement, container):
+    """-H example.com,domain.org ps | (logs | term | stop | start | restart | rm --container=<name>...)"""
+    if statement not in DOCKER_AVAILABLE_COMMANDS:
+        print(f"Please specify valid docker statement: {DOCKER_AVAILABLE_COMMANDS}")
         return
 
-    c.run("docker " + DOCKER_COMMANDS.get(command, command))
+    if statement == "ps":
+        c.run("docker " + DOCKER_COMMANDS.get(statement, statement))
+    else:
+        for name in container:
+            c.run(f"docker {DOCKER_COMMANDS.get(statement, statement)} {name}", warn=True)
