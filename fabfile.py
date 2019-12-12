@@ -35,6 +35,11 @@ def password(_, length=DEFAULT_PASSWORD_LENGTH, no_special_chars=False):
     print(generate_password(length, not no_special_chars))
 
 
+@local_task
+def ssh_key(c, comment):
+    c.run(f'ssh-keygen -t rsa -b 4096 -C "{comment}"')
+
+
 def generate_password(length, special_chars):
     import string
     from random import SystemRandom
