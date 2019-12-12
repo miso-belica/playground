@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
 """
-Script that can copy schema + data from one PostgreSQL into another PostgreSQL even on another server. It's mostly used for DB migration.
-Data are copied by tables so some tables may be copied during application is still running if tables are not modified.
-Data are copied in more processes so it faster than classical pg_dump/pg_restore and also data are copied directly
-from source DB into destination DB and PostgreSQL streams are used so this is another speed-up.
-You need to create destination database manually before migration of schema and data.
+Script that can copy schema + data from one PostgreSQL into another PostgreSQL even on another server.
+It's mostly used for DB migration. Data are copied by tables so some tables may be copied during application is still
+running if tables are not modified. Data are copied in more processes so it faster than classical pg_dump/pg_restore
+and also data are copied directly from source DB into destination DB and PostgreSQL streams are used so this is another
+speed-up. You need to create destination database manually before migration of schema and data.
 
 Setup:
     sudo apt-get install python3 python3-pip
@@ -39,8 +39,7 @@ from multiprocessing import current_process
 import psycopg2
 import psycopg2.extras
 from docopt import docopt
-from invoke import task
-
+from invoke import run
 
 WORKERS = 4
 
@@ -66,9 +65,9 @@ def copy_sequences_state(src_db, dest_postgres_url):
 
     with Database(dest_postgres_url) as dest_db:
         for sequence in sequences:
-            result = src_db.query('SELECT "last_value" FROM "{}"'.format(sequence))
+            result = src_db.query(f'SELECT "last_value" FROM "{sequence}"')
             last_value = list(result)[0]["last_value"] + 1  # advance counter just to be sure no duplicate PK occures
-            dest_db.execute("SELECT pg_catalog.setval('{}', {}, true)".format(sequence, last_value))
+            dest_db.execute(f"SELECT pg_catalog.setval('{sequence}', {last_value}, true)")
 
 
 def copy_data_with_setup(args):
@@ -93,26 +92,27 @@ def copy_data_with_setup(args):
 
 def run_db_consumer(dest_postgres_url, read_fd, table):
     with Database(dest_postgres_url) as dest_db:
-        dest_db.execute("""ALTER TABLE "{}" DISABLE TRIGGER ALL""".format(table))
+        dest_db.execute(f"""ALTER TABLE "{table}" DISABLE TRIGGER ALL""")
         dest_db.copy_from(os.fdopen(read_fd, "rb"), table)
-        dest_db.execute("""ALTER TABLE "{}" ENABLE TRIGGER ALL""".format(table))
+        dest_db.execute(f"""ALTER TABLE "{table}" ENABLE TRIGGER ALL""")
 
 
-@task
-def copy_schema(c, src_postgres_url, dest_postgres_url, delete_file, only_dump_schema):
+def copy_schema(src_postgres_url, dest_postgres_url, delete_file, only_dump_schema):
     # dump
-    c.run('pg_dump --schema-only --no-security-labels --no-owner --no-privileges --quote-all-identifiers --schema=public -f schema.sql "{}"'.format(src_postgres_url))
+    run(
+        'pg_dump --schema-only --no-security-labels --no-owner --no-privileges --quote-all-identifiers'
+        f' --schema=public -f schema.sql "{src_postgres_url}"'
+    )
 
     # import
     if not only_dump_schema:
-        with c.warn_only():
-            result = c.run('psql -f schema.sql "{}"'.format(dest_postgres_url), capture=True)
-            if result.failed:
-                print(result.stderr)
+        result = run(f'psql -f schema.sql "{dest_postgres_url}"', capture=True, warn=True)
+        if result.failed:
+            print(result.stderr)
 
     # cleanup
     if delete_file:
-        c.run("rm schema.sql")
+        run("rm schema.sql")
 
 
 class Database:
@@ -141,10 +141,10 @@ class Database:
         return self._cursor.fetchall()
 
     def copy_from(self, stream, table):
-        self._cursor.copy_expert("""COPY "{}" FROM STDIN WITH (FORMAT 'binary')""".format(table), stream)
+        self._cursor.copy_expert(f"""COPY "{table}" FROM STDIN WITH (FORMAT 'binary')""", stream)
 
     def copy_to(self, stream, table):
-        self._cursor.copy_expert("""COPY "{}" TO STDOUT WITH (FORMAT 'binary')""".format(table), stream)
+        self._cursor.copy_expert(f"""COPY "{table}" TO STDOUT WITH (FORMAT 'binary')""", stream)
 
 
 def humanize_time(time_delta):
