@@ -19,7 +19,7 @@ DOCKER_COMMANDS = {
 
 
 @remote_task
-def init(c):
+def server_init(c):
     c.put("dotfiles/.bash_aliases", "~/.bash_aliases")
     c.put("dotfiles/.gitconfig", "~/.gitconfig")
     c.put("dotfiles/.vimrc", "~/.vimrc")
@@ -31,12 +31,14 @@ def init(c):
 
 
 @local_task
-def password(_, length=DEFAULT_PASSWORD_LENGTH, no_special_chars=False):
-    print(generate_password(length, not no_special_chars))
+def password(_, length=DEFAULT_PASSWORD_LENGTH, special_chars=True):
+    f"""[--length={DEFAULT_PASSWORD_LENGTH} --no-special-chars]"""
+    print(generate_password(length, special_chars))
 
 
 @local_task
 def ssh_key(c, comment):
+    """--comment=<e-mail>"""
     c.run(f'ssh-keygen -t rsa -b 4096 -C "{comment}"')
 
 
@@ -54,6 +56,7 @@ def generate_password(length, special_chars):
 
 @local_task
 def pg_dump(c, database, only_schema=False):
+    """--database=<name> [--only-schema]"""
     c.run(
         'pg_dump --schema-only --quote-all-identifiers --no-security-labels --no-owner --no-privileges '
         f'-U postgres -d "{database}" -f schema.sql',
@@ -68,6 +71,7 @@ def pg_dump(c, database, only_schema=False):
 
 @local_task
 def pg_load(c, database, only_data=True):
+    """--database=<name> [--only-data]"""
     if not only_data:
         c.run(f'psql -U postgres -d "{database}" -f schema.sql')
 
@@ -76,6 +80,7 @@ def pg_load(c, database, only_data=True):
 
 @remote_task
 def docker(c, command="ps"):
+    f"""--command=<{" | ".join(DOCKER_AVAILABLE_COMMANDS)}>"""
     if command not in DOCKER_AVAILABLE_COMMANDS:
         print(f"Please specify valid docker command: {DOCKER_AVAILABLE_COMMANDS}")
         return
