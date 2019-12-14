@@ -2,11 +2,13 @@
 
 """
 Setup:
-    pip install -U "fabric>=2.5.0"
+    pip install -U "fabric>=2.5.0" invocations
     Put file `.fabric.py` with `user = "name"` into your home directory.
 """
+from pathlib import Path
 
 from fabric import task as remote_task
+from invocations.console import confirm
 from invoke import task as local_task
 
 DEFAULT_PASSWORD_LENGTH = 25
@@ -34,6 +36,28 @@ def server_init(c):
 def password(_, length=DEFAULT_PASSWORD_LENGTH, special_chars=True):
     """[--length=25 --no-special-chars]"""
     print(generate_password(length, special_chars))
+
+
+@local_task
+def etc_hosts(_, add=None, remove=None):
+    """[--add="127.0.0.1 postgres" | --remove=<ip/host>] """
+    path = Path("c:/Windows/System32/drivers/etc/hosts")
+    content = path.read_text(encoding="utf-8")
+
+    new_lines = []
+    if add:
+        new_lines = content.splitlines() + [add]
+    elif remove:
+        new_lines = [l for l in content.splitlines() if not l.startswith(remove) and not l.endswith(remove)]
+
+    if new_lines:
+        new_content = "\n".join(new_lines)
+        print(new_content)
+
+        if confirm("OK?", assume_yes=False):
+            path.write_text(new_content, encoding="utf-8")
+    else:
+        print(content)
 
 
 @local_task
