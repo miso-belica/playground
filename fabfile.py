@@ -47,8 +47,10 @@ def add_group(c, group="docker"):
 
 
 @remote_task(password)
-def create_user(c, name):
-    """<name>"""
+def create_user(c, name, creator="root"):
+    """<name> [--creator=<root>]"""
+    c.user = creator
+
     c.sudo(f"useradd --groups docker --create-home --shell /bin/bash {name}")
     c.sudo(f"passwd {name}")
 
