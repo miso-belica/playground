@@ -131,3 +131,32 @@ def docker(c, statement, container):
     else:
         for name in container:
             c.run(f"docker {DOCKER_COMMANDS.get(statement, statement)} {name}", warn=True)
+
+
+@local_task
+def git_changes(c, base_branch="master"):
+    """[--patterns=<file>]"""
+    result = run_local("git branch --all", hide="out")
+    branches = [l.strip(" *") for l in result.stdout.splitlines() if "->" not in l]
+
+    changed_files = set()
+    for branch in branches:
+        if branch != base_branch and not branch.startswith("remotes/"):
+            result = run_local(f"git merge-base {branch} {base_branch}", hide="out", echo=False, warn=True)
+            result = run_local(f"git diff --name-only {branch} {result.stdout}", hide="out", echo=False, warn=True)
+            changed_files.update(result.stdout.splitlines())
+
+    print("\n".join(sorted(changed_files)))
+
+
+@local_task
+def python_profile(c, command):
+    """script.py
+
+    https://thirld.com/blog/2014/11/30/visualizing-the-results-of-profiling-python-code/
+    sudo apt install kcachegrind
+    pip install pyprof2calltree
+    pyprof2calltree -i profiling.out -k
+    """
+    run_local(f"python -m cProfile -s cumtime -o profiling.out {command}")
+
