@@ -9,7 +9,7 @@ from pathlib import Path
 
 from fabric import task as remote_task
 from invocations.console import confirm
-from invoke import task as local_task
+from invoke import run as run_local, task as local_task
 
 DEFAULT_PASSWORD_LENGTH = 25
 DOCKER_AVAILABLE_COMMANDS = {"ps", "term", "stop", "start", "restart", "rm", "logs"}
@@ -37,7 +37,7 @@ def password(c, nginx=False, length=DEFAULT_PASSWORD_LENGTH, special_chars=True)
     """[--nginx --length=25 --no-special-chars]"""
     print(generate_password(length, special_chars))
     if nginx:
-        c.run("openssl passwd -apr1")
+        run_local("openssl passwd -apr1")
 
 
 @remote_task
