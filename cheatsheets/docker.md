@@ -5,6 +5,7 @@
 - Run command `docker run -it --rm --init --publish 80:80 -p 8080:8080 -e "ENV=value" --name=<container-name> <image-name> npm run test`
 - Run in background `docker run --detach --restart=always --publish=32775:9200 --name=<container-name> [-v <local-absolute-path>:<docker-absolute-path>] <image-name>`
 - Bash into running container `docker exec -it <container-name> /bin/bash`
+- https://www.docker.com/blog/how-to-deploy-on-remote-docker-hosts-with-docker-compose/
 
 # Dockerfile
 
