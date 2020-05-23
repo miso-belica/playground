@@ -7,3 +7,7 @@
 
 
 https://dev.to/adamkdean/automatic-ssl-with-let-s-encrypt-nginx-4nfk
+
+# UI config generator
+
+https://nginxconfig.io/ -> https://www.digitalocean.com/community/tools/nginx
