@@ -1,0 +1,3 @@
+run:
+  echo: true
+  shell: C:\Windows\System32\cmd.exe # https://github.com/pyinvoke/invoke/issues/345
