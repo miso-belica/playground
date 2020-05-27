@@ -9,6 +9,8 @@
 
 # Dockerfile
 
+https://www.ardanlabs.com/blog/2020/04/docker-images-part3-going-farther-reduce-image-size.html
+
 ```docker
 FROM elasticsearch:latest
 
