@@ -1,0 +1,29 @@
+# The Caddyfile is an easy way to configure your Caddy web server.
+# Refer to the docs for more info: https://caddyserver.com/docs/caddyfile
+#
+# Unless the file starts with a global options block, the first
+# uncommented line is always the address of your site.
+#
+# To use your own domain name (with automatic HTTPS), first make
+# sure your domain's A/AAAA DNS records are properly pointed to
+# this machine's public IP.
+
+(CORS) {
+        @origin header Origin *
+        header @origin Access-Control-Allow-Origin "*"
+        header @origin Access-Control-Request-Method "HEAD,OPTIONS,GET,POST,PUT,PATCH,DELETE"
+        header @origin Access-Control-Allow-Headers "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range"
+}
+
+frontend.example.com {
+        file_server
+        root * /var/www/frontend
+        try_files {path} /index.html
+        encode zstd gzip
+}
+
+api.example.com {
+        reverse_proxy 127.0.0.1:8080
+        import CORS
+        encode zstd gzip
+}
