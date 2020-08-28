@@ -6,6 +6,7 @@
 - Run in background `docker run --detach --restart=always --publish=32775:9200 --name=<container-name> [-v <local-absolute-path>:<docker-absolute-path>] <image-name>`
 - Bash into running container `docker exec -it <container-name> /bin/bash`
 - https://www.docker.com/blog/how-to-deploy-on-remote-docker-hosts-with-docker-compose/
+- Mount directory as root `docker run -it --rm --user=root -v <abs-path-to-dir>:/docker-volume busybox`
 
 # Dockerfile
 
