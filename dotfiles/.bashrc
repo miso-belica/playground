@@ -5,3 +5,5 @@
 # b) Command matching the previous history entry  to  not  be  saved (avoid duplicate commands) ##
 ######
 HISTCONTROL=ignoreboth
+
+# http://ezprompt.net/
