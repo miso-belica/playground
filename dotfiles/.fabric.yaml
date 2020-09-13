@@ -1,0 +1,5 @@
+user: mbelica
+run:
+  echo: true
+timeouts:
+  connect: 300
