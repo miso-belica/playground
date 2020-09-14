@@ -5,7 +5,7 @@
 [core]
 	editor = 'C:/Program Files/Sublime Text/sublime_text.exe' -w
 	autocrlf = input
-	excludesfile = 'C:/Users/m/.gitignore'
+	excludesfile = C:/Users/m/.gitignore
 
 [rebase]
 	autosquash = true
