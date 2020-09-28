@@ -3,6 +3,8 @@
 
 bumpversion
 pytest
+# https://github.com/miketheman/pytest-socket OR https://github.com/best-doctor/pytest_network
+pytest-socket
 pytest-cov
 pytest-watch
 pytest-testmon
