@@ -44,7 +44,7 @@ def password(c, nginx=False, length=DEFAULT_PASSWORD_LENGTH, special_chars=True)
 
 @task
 def add_group(_, host, user, group="docker"):
-    """<host> [--group=docker]"""
+    """<host> <user> [--group=docker]"""
     with Connection(host, user) as remote:
         remote.run(f"usermod -a -G {group} {user}")
 
@@ -162,4 +162,26 @@ def python_profile(c, command):
     pip install pyprof2calltree
     pyprof2calltree -i profiling.out -k
     """
-    c.run(f"python -m cProfile -s cumtime -o profiling.out {command}")
+    c.run(f"python -m cProfile --sort cumtime --outfile profiling.out {command}")
+
+
+@task
+def git_search(c, pattern):
+    """<pattern>
+
+    https://stackoverflow.com/questions/7151311/using-git-how-could-i-search-for-a-string-across-all-branches
+    """
+    c.run("git fetch origin")
+    c.run("git remote prune origin")
+    result = c.run(f"git branch --remote | grep -v \" -> \" | xargs git grep {pattern}", hide="out", echo=False)
+
+    matches = {}
+    for line in result.stdout.splitlines():
+        branch, file, match = line.split(":", maxsplit=2)
+        matches.setdefault((file, match), []).append(branch)
+
+    def by_branches(item): return len(item[1])
+    for (file, match), branches in sorted(matches.items(), key=by_branches, reverse=True):
+        print(file)
+        print(match)
+        print(f"{len(branches)}:", ", ".join(branches))
