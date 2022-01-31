@@ -173,7 +173,7 @@ def git_search(c, pattern):
     """
     c.run("git fetch origin")
     c.run("git remote prune origin")
-    result = c.run(f"git branch --remote | grep -v \" -> \" | xargs git grep {pattern}", hide="out", echo=False)
+    result = c.run(f'git branch --remote | grep -v " -> " | xargs git grep "{pattern}"', hide="out", echo=False)
 
     matches = {}
     for line in result.stdout.splitlines():
@@ -184,4 +184,4 @@ def git_search(c, pattern):
     for (file, match), branches in sorted(matches.items(), key=by_branches, reverse=True):
         print(file)
         print(match)
-        print(f"{len(branches)}:", ", ".join(branches))
+        print(f"{len(branches)}:", ", ".join(branches), end="\n\n")
