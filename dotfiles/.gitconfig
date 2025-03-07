@@ -1,6 +1,7 @@
+# https://blog.gitbutler.com/how-git-core-devs-configure-git/
 [user]
-	name = Mišo Belica
-	email = miso.belica@gmail.com
+	name = Mišo
+	email = 
 
 [core]
 	editor = 'C:/Program Files/Sublime Text/sublime_text.exe' -w
