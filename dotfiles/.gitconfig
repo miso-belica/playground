@@ -4,7 +4,7 @@
 	email = 
 
 [core]
-	editor = 'C:/Program Files/Sublime Text/sublime_text.exe' -w
+	editor = code --wait
 	autocrlf = input
 	excludesfile = C:/Users/m/.gitignore
 
