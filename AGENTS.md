@@ -9,10 +9,11 @@ For interaction with Github, use gh CLI.
 - Avoid using text-only search tools unless a plain-text search is explicitly requested.
 
 ## Commit flow
-- Commit only when instructed.
-- NEVER push anything to upstream/origin server.
+- Commit only when EXPLICITLY instructed.
+- NEVER push anything to upstream/origin server even if explicitly instructed.
 - When planning multiple steps always plan steps as commits.
 - Make the smallest atomic commits - single test + minimal code to satisfy the test + documentation in the commit message.
+- Never continue with further steps without asking user for review and previous steps are commited.
 
 ## Testing rules
 - Practice red/green TDD when appropriate.
