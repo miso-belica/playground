@@ -1,6 +1,7 @@
 Use extreme concision in all interactions and commits - sacrifice grammar for brevity.
 
 For interaction with Github, use gh CLI.
+Prefer /** ... */ comments when describing functions/constants and use // ... only for inline comments
 
 ## Code navigation and refactoring
 - You are operating in an environment where ast-grep CLI is installed.
