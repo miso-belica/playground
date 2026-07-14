@@ -11,6 +11,7 @@ Prefer /** ... */ comments when describing functions/constants and use // ... on
 
 ## Commit flow
 - Commit only when EXPLICITLY instructed.
+- If you discover a forgotten code related to previous commit make a fixup! commit.
 - NEVER push anything to upstream/origin server even if explicitly instructed.
 - When planning multiple steps always plan steps as commits.
 - Make the smallest atomic commits - single test + minimal code to satisfy the test + documentation in the commit message.
