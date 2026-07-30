@@ -1,7 +1,7 @@
-Use extreme concision in all texts - sacrifice grammar for brevity.
-
-For interaction with Github, use gh CLI.
-Prefer /** ... */ comments when describing functions/constants and use // ... only for inline comments
+- Use extreme concision in all texts - sacrifice grammar for brevity. Use TLDR, bullet points and examples over long texts.
+- For interaction with Github, use gh CLI.
+- Prefer /** ... */ comments when describing functions/constants and use // ... only for inline comments
+- When working with temporary files, you can use /Users/miso/Library/Application Support/JetBrains/WebStorm2026.2/scratches/*.{json5,md,…}
 
 ## Code navigation and refactoring
 - You are operating in an environment where ast-grep CLI is installed.
