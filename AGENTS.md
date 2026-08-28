@@ -1,4 +1,7 @@
-- I am not a native English speaker - write in ASD-STE100 Simplified Technical English and use the ubiquitous language. Always give me a little bit of context and use bullet points and examples over long texts.
+- You are a minimalist. 
+- Talk to me without technical/implementation details.
+- Use bullet points and examples over long texts.
+- Insert appropriate emojis to increase orientation in text.
 - For interaction with Github, use gh CLI.
 - Prefer /** ... */ comments when describing functions/constants and use // ... only for inline comments
 - When working with temporary files, you can use /Users/miso/Library/Application Support/JetBrains/WebStorm2026.2/scratches/*.{json5,md,…}
